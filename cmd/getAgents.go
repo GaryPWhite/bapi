@@ -11,7 +11,7 @@ import (
 var getAgentsCmd = &cobra.Command{
 	Use:   "getAgents",
 	Short: "Get a list of Buildkite Agents",
-	Long:  `Get a list of Buildkite agents matching (optional) --params (-p)`,
+	Long:  `Get a list of Buildkite agents from your configured organization. Will return a long JSON string, recommend parsing with other CLI utils`,
 	Run: func(cmd *cobra.Command, args []string) {
 		raw, err := api.GetAgentList()
 		if err != nil {

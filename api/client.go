@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/spf13/viper"
@@ -17,6 +18,14 @@ func makeClient() *buildkiteClient {
 	client.organization = viper.GetString("organization")
 	client.apiToken = viper.GetString("token")
 	return client
+}
+
+func failOnStatusCode(res *http.Response) error {
+	if res.StatusCode >= 400 {
+		b, _ := ioutil.ReadAll(res.Body)
+		return fmt.Errorf("Failed on status code %d, Response:\n%s", res.StatusCode, b)
+	}
+	return nil
 }
 
 func buildBaseRequest(urlPath, method string) (*http.Request, error) {
@@ -40,4 +49,30 @@ func GetAgentList() (string, error) {
 		return "", err
 	}
 	return agentsString, err
+}
+
+// GetBuildsList will return JSON string of all builds
+func GetBuildsList() (string, error) {
+	req, err := buildBaseRequest("builds", "GET")
+	if err != nil {
+		return "", err
+	}
+	agentsString, err := GetAllPages(req)
+	if err != nil {
+		return "", err
+	}
+	return agentsString, err
+}
+
+// StopAgent will stop specified agent
+func StopAgent(agentID string, force bool) error {
+	req, err := buildBaseRequest(fmt.Sprintf("/agents/%s/stop", agentID), "PUT")
+	if err != nil {
+		return err
+	}
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	return failOnStatusCode(res)
 }
