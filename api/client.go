@@ -2,7 +2,6 @@ package api
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/http"
 
 	"github.com/spf13/viper"
@@ -36,14 +35,9 @@ func GetAgentList() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	resp, err := http.DefaultClient.Do(req)
+	agentsString, err := GetAllPages(req)
 	if err != nil {
 		return "", err
 	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", err
-	}
-	return string(body), nil
+	return agentsString, err
 }
