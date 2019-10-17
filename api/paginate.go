@@ -20,6 +20,10 @@ func GetAllPages(req *http.Request) (string, error) {
 		if err != nil {
 			return "", err
 		}
+		err = failOnStatusCode(resp)
+		if err != nil {
+			return "", err
+		}
 		returnBody, err = getBody(resp)
 		if err != nil {
 			return "", err

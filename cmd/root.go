@@ -24,7 +24,7 @@ var rootCmd = &cobra.Command{
 
 	getAgents 	  - return all agents currently active for $BAPI_ORGANIZATION
 	jobsFromAgent - return recent jobs from $BAPI_AGENT
-	stopAgent     - stop $BAPI_AGENT after job finishes
+	stopAgent     - stop $BAPI_AGENT or --agent after job finishes
 	`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
@@ -65,6 +65,7 @@ func init() {
 	rootCmd.PersistentFlags().StringP("organization", "o", "", "organization slug from buildkite")
 	rootCmd.PersistentFlags().StringP("params", "p", "", "parameters for the request (filters)")
 	rootCmd.PersistentFlags().String("token", "", "Rest API token")
+	rootCmd.PersistentFlags().Int32("limit", -1, "limit number of results from any query")
 
 	viper.BindPFlag("organization", rootCmd.PersistentFlags().Lookup("organization"))
 	viper.BindPFlag("token", rootCmd.PersistentFlags().Lookup("token"))
