@@ -53,7 +53,13 @@ func GetAgentList() (string, error) {
 
 // GetBuildsList will return JSON string of all builds
 func GetBuildsList() (string, error) {
-	req, err := buildBaseRequest("builds", "GET")
+	var err error
+	var req *http.Request
+	if viper.IsSet("pipeline") {
+		req, err = buildBaseRequest(fmt.Sprintf("pipelines/%s/builds", viper.GetString("pipeline")), "GET")
+	} else {
+		req, err = buildBaseRequest("builds", "GET")
+	}
 	if err != nil {
 		return "", err
 	}
