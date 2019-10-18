@@ -63,7 +63,6 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.bapi.yaml)")
 	rootCmd.PersistentFlags().StringP("organization", "o", "", "organization slug from buildkite")
-	rootCmd.PersistentFlags().StringP("params", "p", "", "parameters for the request (filters)")
 	rootCmd.PersistentFlags().String("token", "", "Rest API token")
 	rootCmd.PersistentFlags().Int32("limit", -1, "limit number of results from any query")
 

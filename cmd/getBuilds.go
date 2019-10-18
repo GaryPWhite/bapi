@@ -20,6 +20,7 @@ import (
 
 	"github.com/garypwhite/bapi/api"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // getBuildsCmd represents the getBuilds command
@@ -30,7 +31,7 @@ var getBuildsCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		raw, err := api.GetBuildsList()
 		if err != nil {
-			fmt.Printf("Error fetching agents:\n%v", err)
+			fmt.Printf("Error fetching Builds:\n%v", err)
 		}
 		fmt.Print(raw)
 	},
@@ -48,4 +49,7 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// getBuildsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	getBuildsCmd.Flags().StringP("pipeline", "p", "", "Pipeline to scope root command to.")
+	viper.BindPFlags(getBuildsCmd.Flags())
+	viper.SetDefault("pipeline", "")
 }
