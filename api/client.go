@@ -55,10 +55,15 @@ func GetAgentList() (string, error) {
 func GetBuildsList() (string, error) {
 	var err error
 	var req *http.Request
+	// inject pipeline string if needed
 	if viper.IsSet("pipeline") {
 		req, err = buildBaseRequest(fmt.Sprintf("pipelines/%s/builds", viper.GetString("pipeline")), "GET")
 	} else {
 		req, err = buildBaseRequest("builds", "GET")
+	}
+	// provide URL encoding if not explicitly disallowed
+	if !viper.GetBool("all") {
+		req.URL.RawQuery = "?state[]=scheduled&state[]=running"
 	}
 	if err != nil {
 		return "", err
