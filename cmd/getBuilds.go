@@ -20,6 +20,7 @@ import (
 
 	"github.com/garypwhite/bapi/api"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // getBuildsCmd represents the getBuilds command
@@ -48,4 +49,8 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// getBuildsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	getBuildsCmd.Flags().StringP("pipeline", "p", "", "Pipeline to scope root command to.")
+	getBuildsCmd.Flags().BoolP("all", "a", false, "Include builds that are not running/scheduled. By default this command will only fetch scheduled/running builds.")
+	viper.BindPFlags(getBuildsCmd.Flags())
+	viper.SetDefault("pipeline", "")
 }
