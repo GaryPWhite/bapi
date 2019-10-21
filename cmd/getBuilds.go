@@ -31,7 +31,7 @@ var getBuildsCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		raw, err := api.GetBuildsList()
 		if err != nil {
-			fmt.Printf("Error fetching agents:\n%v", err)
+			fmt.Printf("Error fetching Builds:\n%v", err)
 		}
 		fmt.Print(raw)
 	},
@@ -50,7 +50,10 @@ func init() {
 	// is called directly, e.g.:
 	// getBuildsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	getBuildsCmd.Flags().StringP("pipeline", "p", "", "Pipeline to scope root command to.")
+<<<<<<< HEAD
 	getBuildsCmd.Flags().BoolP("all", "a", false, "Include builds that are not running/scheduled. By default this command will only fetch scheduled/running builds.")
+=======
+>>>>>>> master
 	viper.BindPFlags(getBuildsCmd.Flags())
 	viper.SetDefault("pipeline", "")
 }
